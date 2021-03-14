@@ -1,0 +1,28 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: nginx-deploy
+  labels: 
+    app: nginx-deploy
+spec:
+  replicas: 1
+  strategy:
+      rollingUpdate:
+          maxSurge: 1
+          maxUnavailable: 1
+  selector:
+    matchLabels:
+      app: nginx
+  template:
+    metadata:
+      labels:
+        type: general
+        app: nginx
+    spec:
+      containers:
+      - name: nginx
+        image: nginx_image
+        imagePullPolicy: Never
+        ports:
+        - containerPort: 80
+        - containerPort: 443

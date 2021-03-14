@@ -1,0 +1,27 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: mysql-deploy
+  labels: 
+    app: mysql-deploy
+spec:
+  replicas: 1
+  strategy:
+      rollingUpdate:
+          maxSurge: 1
+          maxUnavailable: 1
+  selector:
+    matchLabels:
+      app: mysql
+  template:
+    metadata:
+      labels:
+        type: general
+        app: mysql
+    spec:
+      containers:
+      - name: mysql
+        image: mysql_image
+        imagePullPolicy: Never
+        ports:
+        - containerPort: 3306

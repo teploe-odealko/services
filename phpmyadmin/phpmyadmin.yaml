@@ -1,0 +1,28 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: php-deploy
+  labels: 
+    app: php-deploy
+spec:
+  replicas: 1
+  strategy:
+      rollingUpdate:
+          maxSurge: 1
+          maxUnavailable: 1
+  selector:
+    matchLabels:
+      app: php
+  template:
+    metadata:
+      labels:
+        clusterIP: mysql
+        type: general
+        app: php
+    spec:
+      containers:
+      - name: php
+        image: php-image
+        imagePullPolicy: Never
+        ports:
+        - containerPort: 5000
